@@ -1,0 +1,6 @@
+<!-- src/app/components/upload/upload.component.html -->
+<div>
+  <h2>Subir Archivo PDF</h2>
+  <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
+  <button (click)="onUpload()">Subir</button>
+</div>
