@@ -24,6 +24,16 @@ export class UploadService {
     return this.http.request(req);
   }
 
+  recoverFile(id: string): Observable<HttpEvent<any>> {
+
+    const req = new HttpRequest('PUT', `${this.apiUrl}/files/recover/${id}`, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
   getActiveFile(): Observable<HttpEvent<any>> {
 
     const req = new HttpRequest('GET', `${this.apiUrl}/files/get`, {
@@ -42,5 +52,30 @@ export class UploadService {
     });
 
     return this.http.request(req);
+  }
+
+  deleteFile(id: string): Observable<HttpEvent<any>> {
+
+    const req = new HttpRequest('DELETE', `${this.apiUrl}/files/delete/${id}`, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  deletePermanentFile(id: string): Observable<HttpEvent<any>> {
+
+    const req = new HttpRequest('DELETE', `${this.apiUrl}/files/deletePermanent/${id}`, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  downloadFile(url: string): void {
+
+    window.open(`${this.apiUrl}/files${url}`, "_blank");
   }
 }
