@@ -1,6 +1,117 @@
-<!-- src/app/components/upload/upload.component.html -->
-<div>
-  <h2>Subir Archivo PDF</h2>
-  <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
-  <button (click)="onUpload()">Subir</button>
+
+<div class="container mt-4">
+  <div class="row g-3 align-items-start">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Archivos PDF's Activos
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>Arrastra y guarda tus archivos fácilmente.</strong>
+            <p>En esta sección podrás subir todos tus archivos simplemente arrastrándolos al área designada.</p>
+            <p>Los archivos con íconos <span style="color: black; font-weight: bold;">negros</span> representan los documentos que ya están guardados y activos. Los íconos <span style="color: green; font-weight: bold;">verdes</span> indican los nuevos archivos que has agregado y que están pendientes por guardar.</p>
+
+            <button type="button" class="btn mb-2 btn-outline-success" (click)="uploadFiles()">Guardar</button>
+
+            <!-- Archivos PDF cargados -->
+            <div class="col-auto">
+              <div class="container text-center">
+                <div class="row row-cols-auto">
+                  @for (file of pdfFilesActive; let i = $index; track file) {
+                    <div class="col position-relative text-center" style="max-width: 140px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="100px" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                      </svg>
+                      <button type="button" class="btn btn-trash btn-sm btn-danger position-absolute top-0 end-0" (click)="removeFile(i)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                      <p class="small text-truncate">{{ file.p_filename }}</p>
+                    </div>
+                  }
+
+                  @for (file of pdfFiles; let i = $index; track file) {
+                    <div class="col position-relative text-center" style="max-width: 140px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="100px" fill="green" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                      </svg>
+                      <button type="button" class="btn btn-trash btn-sm btn-danger position-absolute top-0 end-0" (click)="removeFile(i)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                      <p class="small text-truncate text-success" >{{ file.name }}</p>
+                    </div>
+                  }  
+
+                  <!-- Área de Drag and Drop -->
+                  <div class="col">
+                    <div class="drag-area border border-primary rounded d-flex align-items-center justify-content-center text-center"
+                        (drop)="onFileDropped($event)"
+                        (dragover)="onDragOver($event)"
+                        (dragleave)="onDragLeave($event)">
+                        
+                      <div>
+                        <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
+                        <p class="small">Arrastra y suelta archivos</p>
+                        <input type="file" id="fileInput" accept="application/pdf" multiple (change)="onFileSelected($event)" hidden>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Archivos Inactivos
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>Todo esto no aparecera en la app.</strong>
+            <p>Si deseas restaurarlo lo puedes hacer haciendo click en el boton</p>
+            
+            <!-- Archivos PDF Inactivos -->
+            <div class="col-auto">
+              <div class="container text-center">
+                <div class="row row-cols-auto">
+                  @for (file of pdfFilesInactive; let i = $index; track file) {
+                    <div class="col">
+                      <div class="col card mb-3" style="max-width: 280px; background-color: aliceblue;">
+                        <div class="row g-3">
+                          <div class="col-md-8">
+                            <div class="card-body">                              
+                              <p class="card-text name-file">{{ file.p_filename }}.</p>
+                              <p class="card-text"><small class="text-body-secondary">Guardado el {{ file.p_create_at }}.</small></p>
+                              <p class="card-text"><small class="text-body-secondary">Eliminado el {{ file.p_delete_at }}</small></p>
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-outline-secondary">Recuperar</button>
+                                <button type="button" class="btn btn-primary"><i class="bi bi-box-arrow-down"></i></button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4" style="padding-top: 25px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="50px" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
 </div>
