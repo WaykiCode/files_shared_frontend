@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class UploadService {
 
-  private apiUrl = 'http://localhost:8080'; // Cambiar si es necesario
+  private apiUrl = 'https://cmas-vial-app.cmassassess.com';
+  // private apiUrl = 'http://localhost:8080';
+  
 
   constructor(private http: HttpClient) {}
 
